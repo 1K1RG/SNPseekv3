@@ -178,25 +178,25 @@ docker-compose up -d
 ```
 The application will be available at: [http://localhost/v3/](http://localhost/v3/) (Port 80)
 
-**Deploy Using Local Build (dockerv2):**
+**Deploy Using Local Build (docker):**
 For local development and specific architectures:
 ```bash
 # 1. Build the application
 mvn clean package -DskipTests
 
 # 2. Prepare the artifacts
-cp target/SNP-seekV3_clean-*.war dockerv2/tomcat/snpseekv3.war
+cp target/SNP-seekV3_clean-*.war docker/tomcat/snpseekv3.war
 
 # 3. Start the containers
-cd dockerv2
+cd docker
 docker-compose up --build -d
 ```
 The application will be available at: [http://localhost:8080/v3/](http://localhost:8080/v3/) (Port 8080)
 
-**Deploy Using Pre-built Private Images (dockerv2):**
-If you have access to the `IRRI-Bioinformatics-Official` private images, use the `dockerv2` setup.
+**Deploy Using Pre-built Private Images (docker):**
+If you have access to the `IRRI-Bioinformatics-Official` private images, use the `docker` setup.
 ```bash
-cd dockerv2
+cd docker
 # Authenticate with ghcr.io (see README.Docker.md for details)
 docker-compose up -d
 ```

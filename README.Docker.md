@@ -8,9 +8,9 @@ cd docker
 docker-compose up --build -d
 ```
 
-## 🚀 Using Private Images (dockerv2)
+## 🚀 Using Private Images
 
-The `dockerv2` directory contains a configuration that uses pre-built, private images from the `IRRI-Bioinformatics-Official` organization on GitHub Container Registry (GHCR).
+The `docker` directory contains a configuration that uses pre-built, private images from the `IRRI-Bioinformatics-Official` organization on GitHub Container Registry (GHCR).
 
 ### **1. Authentication (Required)**
 Since these images are private, you must authenticate with `ghcr.io`:
@@ -24,7 +24,7 @@ Since these images are private, you must authenticate with `ghcr.io`:
     echo $CR_PAT | docker login ghcr.io -u YOUR_GITHUB_USERNAME --password-stdin
     ```
 
-### **2. Deploying with dockerv2 (Local Build)**
+### **2. Deploying with Docker (Local Build)**
 If you prefer to build images locally (e.g., for different architectures or local development):
 
 1.  **Build the application:**
@@ -34,11 +34,11 @@ If you prefer to build images locally (e.g., for different architectures or loca
 2.  **Prepare the artifacts:**
     ```bash
     # Copy and rename the WAR file to the expected location
-    cp target/SNP-seekV3_clean-*.war dockerv2/tomcat/snpseekv3.war
+    cp target/SNP-seekV3_clean-*.war docker/tomcat/snpseekv3.war
     ```
 3.  **Start the containers:**
     ```bash
-    cd dockerv2
+    cd docker
     # Ensure you have an .env file configured (see .env.example)
     docker-compose up --build -d
     ```
@@ -47,7 +47,7 @@ Once the containers are running, the application will be available at:
 **URL:** [http://localhost:8080/v3/](http://localhost:8080/v3/)
 
 ### **3. Using Private Images (GHCR)**
-The `dockerv2` directory can also pull pre-built, private images.
+The `docker` directory can also pull pre-built, private images.
 
 ## ☁️ Cloud Deployment
 

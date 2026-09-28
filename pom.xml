@@ -1521,7 +1521,7 @@
 						<configuration>
 							<target>
 								<copy file="${project.build.directory}/v3.war"
-									tofile="${project.basedir}/dockerv2/tomcat/v3.war"
+									tofile="${project.basedir}/docker/tomcat/v3.war"
 									overwrite="true" />
 							</target>
 						</configuration>
