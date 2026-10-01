@@ -25,6 +25,123 @@
 
 
 	<dependencies>
+		<!-- Eclipse compiles against these project-local runtime libraries. -->
+		<dependency>
+			<groupId>local.webinf</groupId>
+			<artifactId>zk</artifactId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/WebContent/WEB-INF/lib/zk.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local.webinf</groupId>
+			<artifactId>zul</artifactId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/WebContent/WEB-INF/lib/zul-1.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local.webinf</groupId>
+			<artifactId>zcommon</artifactId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/WebContent/WEB-INF/lib/zcommon.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local.webinf</groupId>
+			<artifactId>zel</artifactId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/WebContent/WEB-INF/lib/zel.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local.webinf</groupId>
+			<artifactId>zweb</artifactId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/WebContent/WEB-INF/lib/zweb.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local.webinf</groupId>
+			<artifactId>zhtml</artifactId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/WebContent/WEB-INF/lib/zhtml.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local.webinf</groupId>
+			<artifactId>zkbind</artifactId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/WebContent/WEB-INF/lib/zkbind.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local.webinf</groupId>
+			<artifactId>zkplus</artifactId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/WebContent/WEB-INF/lib/zkplus.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local.webinf</groupId>
+			<artifactId>zkex</artifactId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/WebContent/WEB-INF/lib/zkex.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local.webinf</groupId>
+			<artifactId>zkmax</artifactId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/WebContent/WEB-INF/lib/zkmax.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local.webinf</groupId>
+			<artifactId>zkcharts</artifactId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/WebContent/WEB-INF/lib/zkcharts.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local.webinf</groupId>
+			<artifactId>myforester</artifactId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/WebContent/WEB-INF/lib/myforester.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local.webinf</groupId>
+			<artifactId>sam</artifactId>
+			<version>1.38</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/WebContent/WEB-INF/lib/sam-1.38.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local.webinf</groupId>
+			<artifactId>mdsj</artifactId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/WebContent/WEB-INF/lib/mdsj.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local.webinf</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.5</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/WebContent/WEB-INF/lib/slf4j-api.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.irri</groupId>
+			<artifactId>snpseek-DS</artifactId>
+			<version>3.10.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-oauth2-client</artifactId>
@@ -1348,11 +1465,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!--<dependency>
-	         <groupId>org.irri</groupId>
-	         <artifactId>datasource</artifactId>
-	         <version>1.0</version>
-      	</dependency>-->
 		<!-- https://mvnrepository.com/artifact/jstl/jstl -->
 		<dependency>
 			<groupId>jstl</groupId>
@@ -1397,6 +1509,27 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>local.hdf5</groupId>
+			<artifactId>jarhdfobj</artifactId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/docker/tomcat/hdf5/jarhdfobj.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local.hdf5</groupId>
+			<artifactId>jarh5obj</artifactId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/docker/tomcat/hdf5/jarh5obj.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local.hdf5</groupId>
+			<artifactId>jarhdf5</artifactId>
+			<version>2.10.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/docker/tomcat/hdf5/jarhdf5-2.10.1.jar</systemPath>
 		</dependency>
 	</dependencies>
 	
@@ -1449,6 +1582,12 @@
 					<exclude>**/*.java</exclude>
 				</excludes>
 			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
 		</resources>
 		<plugins>
 			  <plugin>
@@ -1478,6 +1617,13 @@
 				<version>3.8.1</version>
 				<configuration>
 					<release>15</release>
+					<excludes>
+						<exclude>com/github/jmchilton/blend4j/**</exclude>
+						<exclude>org/irri/iric/galaxy/service/**</exclude>
+						<exclude>org/irri/iric/portal/galaxy/zkui/**</exclude>
+						<exclude>org/irri/iric/portal/genomics/dao/GalaxyAltSeqGenerator.java</exclude>
+						<exclude>org/irri/iric/portal/aws_deprecated/**</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
 			<plugin>
