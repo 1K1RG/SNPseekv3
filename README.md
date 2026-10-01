@@ -64,9 +64,9 @@ Before running the project, ensure the following environment variables are confi
 
 #### Database Configuration
 ```yaml
-DB_URLS=jdbc:postgresql://<db-host>:5432/<db-name>
-DB_USERS=<database-username>
-DB_PASSWORDS=<database-password>
+DB_URL=jdbc:postgresql://<db-host>:5432/<db-name>
+DB_USERNAME=<database-username>
+DB_PASSWORD=<database-password>
 ```
 
 #### Application Configuration
@@ -115,7 +115,7 @@ SNPseek uses a **PostgreSQL** database with a **Chado** schema.
 
 - **Schema Scripts**: Initial schema definitions can be found in `docker/postgresDB/iric_schemaOnly.sql`.
 - **Dockerized DB**: The `docker/postgresDB/Dockerfile` can be used to build a database container pre-configured for SNPseek.
-- **Connection**: Ensure `DB_URLS`, `DB_USERS`, and `DB_PASSWORDS` match your database instance.
+- **Connection**: Ensure `DB_URL`, `DB_USERNAME`, and `DB_PASSWORD` match your database instance.
 
 ---
 
@@ -154,59 +154,84 @@ mvn clean install -DskipTests
 
 ## 🚀 How to Deploy
 
-### Prerequisites
-- **Java 15** (as specified in `pom.xml`)
-- **Maven 3.6+**
-- **Docker & Docker Compose** (for containerized deployment)
-- **Tomcat 8.5/9.0** (for manual deployment)
+### Option 1: Deploy Using Pre-built Private Images
 
-### 1. Build the Project
-Run the following command in the project root to compile and generate the WAR file:
+You can only do this option if you have access to the `IRRI-Bioinformatics-Official` private images on GitHub Container Registry (GHCR). Since these images are private, you must authenticate with `ghcr.io` first.
+
+**Prerequisites:**
+
+- **Docker & Docker Compose**
+
+#### 1. Generate a Personal Access Token (PAT)
+
+- Go to [GitHub Settings > Developer Settings > Personal Access Tokens > Tokens (classic)](https://github.com/settings/tokens).
+- Generate a new token with the `read:packages` scope.
+
+#### 2. Log in to the Registry
+
 ```bash
-mvn clean package -DskipTests
+export CR_PAT=YOUR_TOKEN
+echo $CR_PAT | docker login ghcr.io -u YOUR_GITHUB_USERNAME --password-stdin
 ```
-The generated WAR file will be located in `target/SNP-seekV3_clean-<version>.war`.
 
-### 2. Deploy with Docker (Recommended)
-You can use the provided `Dockerfile` and `docker-compose.yaml` for a quick setup.
+#### 3. Start the Containers
 
-**Build the Docker Image Locally:**
 ```bash
-docker build -t snpseek-v3 .
 cd docker
 docker-compose up -d
 ```
-The application will be available at: [http://localhost/v3/](http://localhost/v3/) (Port 80)
 
-**Deploy Using Local Build (docker):**
-For local development and specific architectures:
+The application will be available at: [http://localhost:8080/v3/](http://localhost:8080/v3/)
+
+### Option 2: Build and Deploy the Project
+
+**Prerequisites:**
+
+- **Java 15** (as specified in `pom.xml`)
+- **Maven 3.6+**
+- **Docker & Docker Compose** (for containerized deployment) or **Tomcat 8.5/9.0** (for manual deployment)
+
+#### 1. Build the Project
+
+Run the following command in the project root to compile and generate the WAR file:
+
 ```bash
-# 1. Build the application
 mvn clean package -DskipTests
+```
 
-# 2. Prepare the artifacts
-cp target/SNP-seekV3_clean-*.war docker/tomcat/snpseekv3.war
+The generated WAR file will be located in `target/v3.war`.
 
-# 3. Start the containers
+#### 2. Deploy the Project
+
+Deploy the generated WAR file using **one** of the following methods.
+
+##### Deploy with Docker (Recommended)
+
+For local development and specific architectures:
+
+```bash
 cd docker
 docker-compose up --build -d
 ```
-The application will be available at: [http://localhost:8080/v3/](http://localhost:8080/v3/) (Port 8080)
 
-**Deploy Using Pre-built Private Images (docker):**
-If you have access to the `IRRI-Bioinformatics-Official` private images, use the `docker` setup.
-```bash
-cd docker
-# Authenticate with ghcr.io (see README.Docker.md for details)
-docker-compose up -d
-```
 The application will be available at: [http://localhost:8080/v3/](http://localhost:8080/v3/)
 
-### 3. Manual Deployment to Tomcat
-1.  Copy the generated `.war` file to your Tomcat `webapps` directory.
-2.  Rename it to `v3.war` if you want it accessible at `/v3`.
-3.  Configure environment variables in `setenv.sh` (Linux) or `setenv.bat` (Windows).
-4.  Start/Restart Tomcat.
+> [!NOTE]
+> **Cloud Deployment:** If your cloud provider uses a different CPU architecture (e.g., `amd64` while you are on a Mac M1), build the image for that platform, then push it to a registry:
+>
+> ```bash
+> docker build --platform=linux/amd64 -t snpseek-v3 docker/tomcat
+> docker tag snpseek-v3 myregistry.com/snpseek-v3
+> docker push myregistry.com/snpseek-v3
+> ```
+>
+> For more details, consult the official [Docker documentation](https://docs.docker.com/go/get-started-sharing/).
+
+##### Manual Deployment to Tomcat
+
+1.  Copy the generated `v3.war` file to your Tomcat `webapps` directory.
+2.  Configure environment variables in `setenv.sh` (Linux) or `setenv.bat` (Windows).
+3.  Start/Restart Tomcat.
 
 ---
 
