@@ -107,6 +107,12 @@ Located in `src/main/resources/config.properties`, this is the first file loaded
     - `pathToR`: Path to the `Rscript` executable.
     - `flatFileDir`: Directory for storing temporary and exported flat files.
 
+### **3. IP Addresses: `IpAddresses.properties`**
+Create `src/main/resources/IpAddresses.properties` from `IpAddresses.properties.template`. The file is required for startup, but the property values may be empty.
+
+### **4. Credentials: `keys.properties`**
+Create `src/main/resources/keys.properties` from `keys.properties.template`. The file is required for startup, but the property values may be empty.
+
 ---
 
 ## 🗄️ Database Setup
