@@ -1,15 +1,17 @@
-tomcatserver=<your-tomcat-webapps-path>
-hostname=http\://localhost\:5555
-legacyUrl=http\://localhost\:5555
-hostdir=/iric-portal/
+tomcatserver=/usr/local/tomcat/webapps
+hostname=http\://localhost\:8080
+legacyUrl=http\://localhost\:8080
+hostdir=/v3/
+
 jbrowseDir=jbrowse
 embeddedDir=jbrowse
 jbrowse2Dir=jbrowse2
+
 pathToLocalBlast=<your-blast-bin-path>
 pathToLocalBlastData=<your-blastdata-path>
 pathToR=<your-rscript-path>
 blastserver=/iric-portal-dev
-flatFileDir=<your-flatfiles-path>
+flatFileDir=/usr/local/tomcat/webapps/temp/
 
 #GOOGLE ANALYTICS
 google.property.id=<insert_property_id_here>
