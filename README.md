@@ -60,17 +60,15 @@
 
 Before running the project, ensure the following environment variables are configured. These variables are required for authentication, third-party integration, and database connectivity.
 
-### Required Variables
+When using Docker Compose, you may put them in `docker/.env`.
 
-#### Database Configuration
-```yaml
+```dotenv
+# Database configuration
 DB_URL=jdbc:postgresql://<db-host>:5432/<db-name>
 DB_USERNAME=<database-username>
 DB_PASSWORD=<database-password>
-```
 
-#### Application Configuration
-```yaml
+# Application configuration
 HOSTNAME=<your-server-hostname>              # e.g., http://localhost:8080 or https://yourdomain.com
 RECAPTCHA_SECRET_KEY=<your-recaptcha-secret>
 MICROSOFT_CLIENT_ID=<your-azure-client-id>
