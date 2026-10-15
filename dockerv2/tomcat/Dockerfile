@@ -37,7 +37,7 @@ RUN rm -rf webapps/*
 
 RUN mkdir webapps/temp
 
-COPY snpseekv3.war webapps/v3.war
+COPY v3.war webapps/v3.war
 
 COPY logging.properties conf/logging.properties
 

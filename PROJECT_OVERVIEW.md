@@ -32,7 +32,7 @@ SNPseekv3_JUL2025/
 │   └── legacy/              Old API docs (v2-era)
 ├── docker/                  Legacy Docker setup (Tomcat 8.5 + JRE 8, old WAR name hardcoded)
 ├── dockerv2/                Current Docker setup (Tomcat 9 + JDK 17, env-file driven)
-│   ├── tomcat/              Dockerfile + pre-built WAR + HDF5 .so/.jar
+│   ├── tomcat/              Dockerfile + HDF5 .so/.jar
 │   ├── postgresDB/          PostgreSQL Dockerfile + schema SQL
 │   ├── R/                   Minimal R-base container for Rscript calls
 │   └── IRCStorage/          Flat-files, GWAS emmax .dat files, sample HDF5
@@ -317,12 +317,10 @@ build, test, or deployment pipeline in the repository.
 - `docker/` (legacy): Uses `tomcat:8.5-jre8-alpine` and hardcodes the WAR
   filename `SNP-seekV3_clean-8.13.3.war`. This will fail with any other version
   and should be considered broken for current builds.
-- `dockerv2/` (current): Uses `tomcat:9.0-jdk17`, copies `snpseekv3.war`
-  (which must be placed there manually), and uses an `.env` file for secrets.
+- `dockerv2/` (current): Uses `tomcat:9.0-jdk17`, copies `v3.war` (placed in
+  `dockerv2/tomcat/` by `mvn package`), and uses an `.env` file for secrets.
   Adds a separate `r_seek` container. HDF5 native libraries (`.so` files) are
-  bundled in `dockerv2/tomcat/hdf5/`. A pre-built WAR binary
-  (`dockerv2/tomcat/snpseekv3.war`) is committed to the repository — this binary
-  should not be version-controlled.
+  bundled in `dockerv2/tomcat/hdf5/`.
 
 ### Tech Debt and Known Issues
 
@@ -335,7 +333,6 @@ build, test, or deployment pipeline in the repository.
   require API migration.
 - **Committed Eclipse output:** `bin/` and `build/` directories (compiled `.class`
   files from Eclipse) are checked into git, inflating the repo and polluting diffs.
-- **Committed binary WAR:** `dockerv2/tomcat/snpseekv3.war` is a binary in git.
 - **`SystemCommandExecutor` hang risk:** Multiple `TODO` comments acknowledge that
   the stdin password handling hangs if credentials are wrong. External process
   invocation has no timeout wrapper.
@@ -457,7 +454,6 @@ Output: `target/v3.war`
 ### Step 5 — Deploy (Docker, recommended)
 
 ```bash
-cp target/v3.war dockerv2/tomcat/snpseekv3.war
 cd dockerv2
 cp .env.example .env   # fill in credentials
 docker-compose up --build -d
@@ -565,8 +561,7 @@ workaround is fragile.
 The legacy `docker/tomcat/Dockerfile` hardcodes WAR version `8.13.3` and uses a
 deprecated base image (`tomcat:8.5-jre8-alpine`). Either update it to use the
 WAR name produced by `pom.xml` (i.e., parameterize via `ARG`) or delete it and
-standardize on `dockerv2/` only. Also, remove the committed `dockerv2/tomcat/snpseekv3.war`
-binary from version control and add it to `.gitignore`.
+standardize on `dockerv2/` only.
 
 **5. Gitignore `bin/` and `build/` and remove them from history.**
 The Eclipse-generated output directories add noise to every diff. Add them to
