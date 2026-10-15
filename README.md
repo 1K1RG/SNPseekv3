@@ -143,14 +143,13 @@ SNPseek utilizes the HDF5 format to store and efficiently query large-scale geno
 
 This project depends on the **SNPseek-Datasource** library for database access and data models.
 
-### **SNPseek-Datasource**
-- **Repository:** [SNPseek-Datasource](https://github.com/IRRI-Bioinformatics-Official/SNPseek-Datasource) (`SNPseek-Datasource`)
-- **Artifact:** `org.irri:snpseek-DS:3.10.1`
+[1k1RG-datasource](https://github.com/1K1RG/1k1RG-datasource)
 
 **Installation:**
 Before building SNPseek, you must install the datasource library into your local Maven repository:
+
 ```bash
-cd ../SNPseek-Datasource_JUL2025
+cd ../1k1RG-datasource
 mvn clean install -DskipTests
 ```
 
