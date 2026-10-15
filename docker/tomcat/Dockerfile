@@ -29,7 +29,7 @@
 #CMD ["catalina.sh", "run"]
 
 
-FROM tomcat:9.0-jdk17
+FROM tomcat:8.5-jre8-alpine
 
 WORKDIR /usr/local/tomcat
 
@@ -37,18 +37,9 @@ RUN rm -rf webapps/*
 
 RUN mkdir webapps/temp
 
-COPY v3.war webapps/v3.war
+COPY SNP-seekV3_clean-8.13.3.war webapps/v3.war
 
 COPY logging.properties conf/logging.properties
-
-COPY xml-apis-1.4.01.jar lib/xml-apis-1.4.01.jar
-
-# HDF5 Support
-COPY hdf5/*.jar lib/
-COPY hdf5/*.so* lib/
-COPY hdf5/*.a lib/
-
-ENV LD_LIBRARY_PATH=/usr/local/tomcat/lib
 
 #RUN rm /usr/local/tomcat/conf/logging.properties
 

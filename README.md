@@ -60,7 +60,7 @@
 
 Before running the project, ensure the following environment variables are configured. These variables are required for authentication, third-party integration, and database connectivity.
 
-When using Docker Compose, you may put them in `docker/.env`.
+When using Docker Compose, you may put them in `dockerv2/.env`.
 
 ```dotenv
 # Database configuration
@@ -117,8 +117,8 @@ Create `src/main/resources/keys.properties` from `keys.properties.template`. The
 
 SNPseek uses a **PostgreSQL** database with a **Chado** schema. 
 
-- **Schema Scripts**: Initial schema definitions can be found in `docker/postgresDB/iric_schemaOnly.sql`.
-- **Dockerized DB**: The `docker/postgresDB/Dockerfile` can be used to build a database container pre-configured for SNPseek.
+- **Schema Scripts**: Initial schema definitions can be found in `dockerv2/postgresDB/iric_schemaOnly.sql`.
+- **Dockerized DB**: The `dockerv2/postgresDB/Dockerfile` can be used to build a database container pre-configured for SNPseek.
 - **Connection**: Ensure `DB_URL`, `DB_USERNAME`, and `DB_PASSWORD` match your database instance.
 
 ---
@@ -180,7 +180,7 @@ echo $CR_PAT | docker login ghcr.io -u YOUR_GITHUB_USERNAME --password-stdin
 #### 3. Start the Containers
 
 ```bash
-cd docker
+cd dockerv2
 docker-compose up -d
 ```
 
@@ -213,7 +213,7 @@ Deploy the generated WAR file using **one** of the following methods.
 For local development and specific architectures:
 
 ```bash
-cd docker
+cd dockerv2
 docker-compose up --build -d
 ```
 
@@ -223,7 +223,7 @@ The application will be available at: [http://localhost:8080/v3/](http://localho
 > **Cloud Deployment:** If your cloud provider uses a different CPU architecture (e.g., `amd64` while you are on a Mac M1), build the image for that platform, then push it to a registry:
 >
 > ```bash
-> docker build --platform=linux/amd64 -t snpseek-v3 docker/tomcat
+> docker build --platform=linux/amd64 -t snpseek-v3 dockerv2/tomcat
 > docker tag snpseek-v3 myregistry.com/snpseek-v3
 > docker push myregistry.com/snpseek-v3
 > ```

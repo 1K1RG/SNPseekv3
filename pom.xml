@@ -1515,21 +1515,21 @@
 			<artifactId>jarhdfobj</artifactId>
 			<version>1</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/docker/tomcat/hdf5/jarhdfobj.jar</systemPath>
+			<systemPath>${project.basedir}/dockerv2/tomcat/hdf5/jarhdfobj.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>local.hdf5</groupId>
 			<artifactId>jarh5obj</artifactId>
 			<version>1</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/docker/tomcat/hdf5/jarh5obj.jar</systemPath>
+			<systemPath>${project.basedir}/dockerv2/tomcat/hdf5/jarh5obj.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>local.hdf5</groupId>
 			<artifactId>jarhdf5</artifactId>
 			<version>2.10.1</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/docker/tomcat/hdf5/jarhdf5-2.10.1.jar</systemPath>
+			<systemPath>${project.basedir}/dockerv2/tomcat/hdf5/jarhdf5-2.10.1.jar</systemPath>
 		</dependency>
 	</dependencies>
 	
@@ -1667,7 +1667,7 @@
 						<configuration>
 							<target>
 								<copy file="${project.build.directory}/v3.war"
-									tofile="${project.basedir}/docker/tomcat/v3.war"
+									tofile="${project.basedir}/dockerv2/tomcat/v3.war"
 									overwrite="true" />
 							</target>
 						</configuration>

@@ -30,7 +30,8 @@ SNPseekv3_JUL2025/
 │   ├── explore/             Explore/browse sub-section assets
 │   ├── galaxy/              Galaxy integration assets
 │   └── legacy/              Old API docs (v2-era)
-├── docker/                  Docker setup (Tomcat 9 + JDK 17, env-file driven)
+├── docker/                  Legacy Docker setup (Tomcat 8.5 + JRE 8, old WAR name hardcoded)
+├── dockerv2/                Current Docker setup (Tomcat 9 + JDK 17, env-file driven)
 │   ├── tomcat/              Dockerfile + HDF5 .so/.jar
 │   ├── postgresDB/          PostgreSQL Dockerfile + schema SQL
 │   ├── R/                   Minimal R-base container for Rscript calls
@@ -47,7 +48,7 @@ repository and are noise; they should be gitignored.
 ### Languages, Frameworks, and Major Dependencies
 
 **Language:** Java 15 (Maven compiler plugin `<release>15</release>`). The
-`docker` Tomcat image uses `tomcat:9.0-jdk17`, creating a mismatch between
+`dockerv2` Tomcat image uses `tomcat:9.0-jdk17`, creating a mismatch between
 compiler target and runtime JDK that has not caused reported failures but is a
 latent risk.
 
@@ -215,7 +216,7 @@ Three parallel data access strategies coexist:
 3. **Flat-file DAOs** (`org.irri.iric.portal.gwas.dao.ManhattanPlotDAOFlatfileImpl`,
    `variety.service.VarietyPropertiesServiceImplURLsFlatfiles`): Read
    pre-generated tab-delimited files from `flatFileDir` (e.g., EMMAX GWAS output
-   `.dat` files, variety property exports). The `docker/IRCStorage/` directory
+   `.dat` files, variety property exports). The `dockerv2/IRCStorage/` directory
    contains sample flat files.
 
 ### Pipelines / Workflows
@@ -313,10 +314,13 @@ previous Java-upgrade exploration tool, not a CI pipeline. There is no automated
 build, test, or deployment pipeline in the repository.
 
 **Docker:**
-- `docker/`: Uses `tomcat:9.0-jdk17`, copies `v3.war` (placed in
-  `docker/tomcat/` by `mvn package`), and uses an `.env` file for secrets.
+- `docker/` (legacy): Uses `tomcat:8.5-jre8-alpine` and hardcodes the WAR
+  filename `SNP-seekV3_clean-8.13.3.war`. This will fail with any other version
+  and should be considered broken for current builds.
+- `dockerv2/` (current): Uses `tomcat:9.0-jdk17`, copies `v3.war` (placed in
+  `dockerv2/tomcat/` by `mvn package`), and uses an `.env` file for secrets.
   Adds a separate `r_seek` container. HDF5 native libraries (`.so` files) are
-  bundled in `docker/tomcat/hdf5/`.
+  bundled in `dockerv2/tomcat/hdf5/`.
 
 ### Tech Debt and Known Issues
 
@@ -337,6 +341,8 @@ build, test, or deployment pipeline in the repository.
 - **Production config committed:** `src/main/resources/config.properties` has
   `webserver=brs` (production setting). A fresh clone targeting local development
   requires manually editing this file before building.
+- **`docker/` Dockerfile frozen at v8.13.3:** The legacy dockerfile is entirely
+  broken for current version builds.
 
 ---
 
@@ -448,7 +454,7 @@ Output: `target/v3.war`
 ### Step 5 — Deploy (Docker, recommended)
 
 ```bash
-cd docker
+cd dockerv2
 cp .env.example .env   # fill in credentials
 docker-compose up --build -d
 ```
@@ -461,6 +467,8 @@ Copy `target/v3.war` to `TOMCAT_HOME/webapps/v3.war` and restart Tomcat.
 
 ### Known Setup Issues
 
+- `docker/` (the non-`v2` directory) will **fail to build** because its
+  Dockerfile hardcodes `SNP-seekV3_clean-8.13.3.war`; use `dockerv2/` instead.
 - `src/main/resources/config.properties` must be manually changed from `webserver=brs`
   to `webserver=localhost` before local development builds.
 - There is no seed data script for a minimal working database; the only SQL
@@ -549,12 +557,18 @@ Determine whether ACL features are actually used, remove those dependencies if
 they are vestigial, or upgrade them to match 5.3.x. The current exclusion-heavy
 workaround is fragile.
 
-**4. Gitignore `bin/` and `build/` and remove them from history.**
+**4. Fix `docker/` to be build-reproducible, or remove it.**
+The legacy `docker/tomcat/Dockerfile` hardcodes WAR version `8.13.3` and uses a
+deprecated base image (`tomcat:8.5-jre8-alpine`). Either update it to use the
+WAR name produced by `pom.xml` (i.e., parameterize via `ARG`) or delete it and
+standardize on `dockerv2/` only.
+
+**5. Gitignore `bin/` and `build/` and remove them from history.**
 The Eclipse-generated output directories add noise to every diff. Add them to
 `.gitignore` and remove the committed class files (via `git rm -r --cached bin/
 build/`).
 
-**5. Document and automate the 19K/20K dataset onboarding.**
+**6. Document and automate the 19K/20K dataset onboarding.**
 The `20k` dataset used in the BRS production instance has no manifest, schema
 notes, or ingestion documentation in the repository. A new engineer cannot
 reproduce the BRS configuration from this repo alone. Write a short `docs/datasets.md`
